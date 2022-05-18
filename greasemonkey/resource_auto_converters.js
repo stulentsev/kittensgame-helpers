@@ -96,7 +96,7 @@ function createUI() {
             <li><input type="checkbox" id="gm-rac-makeParchments" checked /><label for="gm-rac-makeParchments">Make parchments</label></li>
             <li><input type="checkbox" id="gm-rac-makeManuscripts" checked /><label for="gm-rac-makeManuscripts">Make manuscripts</label></li>
             <li><input type="checkbox" id="gm-rac-makeCompendiums" checked /><label for="gm-rac-makeCompendiums">Make compendiums</label></li>
-            <li><input type="checkbox" id="gm-rac-sendHunters" checked /><label for="gm-rac-sendHunters">Send hunters when have </label><input type="number" value="25" id="gm-rac-needHunters" style="width:50px" /></li>
+            <li><input type="checkbox" id="gm-rac-sendHunters" checked /><label for="gm-rac-sendHunters">Send hunters when have </label><input type="number" value="27" id="gm-rac-needHunters" style="width:50px" /></li>
             <li><input type="checkbox" id="gm-rac-autoBuyBuildings" checked /><label for="gm-rac-autoBuyBuildings">Auto-buy buildings</label></li>
             <li>
                 <textarea id="gm-rac-neededBuildings" style="width:292px;height:138px">Aqueduct
