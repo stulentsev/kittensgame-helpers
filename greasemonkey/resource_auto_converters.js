@@ -1,8 +1,67 @@
 // ==UserScript==
 // @name     Auto-Convert Resources
 // @version  1
-// @grant    none
+// @grant    GM.getValue
+// @grant    GM.setValue
 // ==/UserScript==
+
+function restoreSettings() {
+    document.getElementById("gm-rac-saveSettings").addEventListener("click", saveSettings);
+
+    GM.getValue("gmRacSettings").then(ls => {
+        let saved = JSON.parse(ls || "{}") || {};
+        [
+            "gm-rac-convertCatnip",
+            "gm-rac-convertWood",
+            "gm-rac-convertMinerals",
+            "gm-rac-convertIron",
+            "gm-rac-makeSteel",
+            "gm-rac-makeParchments",
+            "gm-rac-makeManuscripts",
+            "gm-rac-makeCompendiums",
+            "gm-rac-sendHunters",
+            "gm-rac-autoBuyBuildings"
+
+        ].forEach(elemId => {
+            document.getElementById(elemId).checked = !!saved[elemId];
+        });
+
+        [
+            "gm-rac-needHunters",
+            "gm-rac-neededBuildings"
+        ].forEach(elemId => {
+            document.getElementById(elemId).value = saved[elemId];
+        })
+    })
+}
+
+function saveSettings() {
+    let saved = {};
+
+    [
+        "gm-rac-convertCatnip",
+        "gm-rac-convertWood",
+        "gm-rac-convertMinerals",
+        "gm-rac-convertIron",
+        "gm-rac-makeSteel",
+        "gm-rac-makeParchments",
+        "gm-rac-makeManuscripts",
+        "gm-rac-makeCompendiums",
+        "gm-rac-sendHunters",
+        "gm-rac-autoBuyBuildings"
+
+    ].forEach(elemId => {
+        saved[elemId] = document.getElementById(elemId).checked;
+    });
+
+    [
+        "gm-rac-needHunters",
+        "gm-rac-neededBuildings"
+    ].forEach(elemId => {
+        saved[elemId] = document.getElementById(elemId).value;
+    });
+    GM.setValue("gmRacSettings", JSON.stringify(saved));
+}
 
 function getReactElement(reactid) {
     let elems = document.querySelectorAll(`[data-reactid='${reactid}']`);
@@ -15,7 +74,7 @@ function getReactElement(reactid) {
 function convertResource(triggerId, actionId, toggleId, condition) {
     let toggle = document.getElementById(toggleId);
 
-    if(toggle && toggle.checked) {
+    if (toggle && toggle.checked) {
         let trigger = getReactElement(triggerId);
         let btn = getReactElement(actionId);
         if (trigger && btn && (!condition || condition(trigger, btn))) {
@@ -67,11 +126,11 @@ function startConverters() {
 
 function startBuyers() {
     let toggle = document.getElementById("gm-rac-autoBuyBuildings");
-    if(toggle && toggle.checked) {
+    if (toggle && toggle.checked) {
         let itemsToBuy = document.getElementById("gm-rac-neededBuildings").value.split("\n").map(s => s.trim()).filter(s => s !== "");
         let activeButtons = [...document.querySelectorAll(".bldGroupContainer .btn:not(.disabled)")]
             .filter(elem => itemsToBuy.some(itemName => elem.innerText.includes(itemName)));
-        if(activeButtons.length) {
+        if (activeButtons.length) {
             activeButtons[0].click();
         }
     }
@@ -88,29 +147,20 @@ function createUI() {
     document.body.appendChild(elemDiv);
     let html = `
         <ul style="list-style-type: none">
-            <li><input type="checkbox" id="gm-rac-convertCatnip" checked /><label for="gm-rac-convertCatnip">Convert catnip</label></li>
-            <li><input type="checkbox" id="gm-rac-convertWood" checked /><label for="gm-rac-convertWood">Convert wood</label></li>
-            <li><input type="checkbox" id="gm-rac-convertMinerals" checked /><label for="gm-rac-convertMinerals">Convert minerals</label></li>
-            <li><input type="checkbox" id="gm-rac-convertIron" checked /><label for="gm-rac-convertIron">Convert iron</label></li>
-            <li><input type="checkbox" id="gm-rac-makeSteel" checked /><label for="gm-rac-makeSteel">Make steel</label></li>
-            <li><input type="checkbox" id="gm-rac-makeParchments" checked /><label for="gm-rac-makeParchments">Make parchments</label></li>
-            <li><input type="checkbox" id="gm-rac-makeManuscripts" checked /><label for="gm-rac-makeManuscripts">Make manuscripts</label></li>
-            <li><input type="checkbox" id="gm-rac-makeCompendiums" checked /><label for="gm-rac-makeCompendiums">Make compendiums</label></li>
-            <li><input type="checkbox" id="gm-rac-sendHunters" checked /><label for="gm-rac-sendHunters">Send hunters when have </label><input type="number" value="27" id="gm-rac-needHunters" style="width:50px" /></li>
-            <li><input type="checkbox" id="gm-rac-autoBuyBuildings" checked /><label for="gm-rac-autoBuyBuildings">Auto-buy buildings</label></li>
+            <li><input type="checkbox" id="gm-rac-convertCatnip" /><label for="gm-rac-convertCatnip">Convert catnip</label></li>
+            <li><input type="checkbox" id="gm-rac-convertWood" /><label for="gm-rac-convertWood">Convert wood</label></li>
+            <li><input type="checkbox" id="gm-rac-convertMinerals" /><label for="gm-rac-convertMinerals">Convert minerals</label></li>
+            <li><input type="checkbox" id="gm-rac-convertIron" /><label for="gm-rac-convertIron">Convert iron</label></li>
+            <li><input type="checkbox" id="gm-rac-makeSteel" /><label for="gm-rac-makeSteel">Make steel</label></li>
+            <li><input type="checkbox" id="gm-rac-makeParchments" /><label for="gm-rac-makeParchments">Make parchments</label></li>
+            <li><input type="checkbox" id="gm-rac-makeManuscripts" /><label for="gm-rac-makeManuscripts">Make manuscripts</label></li>
+            <li><input type="checkbox" id="gm-rac-makeCompendiums" /><label for="gm-rac-makeCompendiums">Make compendiums</label></li>
+            <li><input type="checkbox" id="gm-rac-sendHunters" /><label for="gm-rac-sendHunters">Send hunters when have </label><input type="number" value="27" id="gm-rac-needHunters" style="width:50px" /></li>
+            <li><input type="checkbox" id="gm-rac-autoBuyBuildings" /><label for="gm-rac-autoBuyBuildings">Auto-buy buildings</label></li>
             <li>
-                <textarea id="gm-rac-neededBuildings" style="width:292px;height:138px">Aqueduct
-Catnip Field
-Pasture
-Barn
-Mine
-Library
-Academy
-Log House
-Workshop
-Lumber Mill
-Tradepost</textarea>    
+                <textarea id="gm-rac-neededBuildings" style="width:292px;height:138px"></textarea>    
             </li>
+            <li><input type="button" id="gm-rac-saveSettings" value="Save settings" /></li>
         </ul>
     `;
     elemDiv.innerHTML = html;
@@ -127,6 +177,7 @@ function whenReady(callback) {
 
 whenReady(() => {
     createUI();
+    restoreSettings();
     startConverters();
     startBuyers();
 })
