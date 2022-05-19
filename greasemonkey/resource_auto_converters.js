@@ -138,6 +138,11 @@ function startBuyers() {
     setTimeout(startBuyers, 3000);
 }
 
+function startAutoSaver() {
+    saveSettings();
+    setTimeout(startAutoSaver, 10000);
+}
+
 function createUI() {
     let elemDiv = document.createElement('div');
     let leftOffset = document.getElementById('save-link').offsetLeft;
@@ -180,5 +185,6 @@ whenReady(() => {
     restoreSettings();
     startConverters();
     startBuyers();
+    startAutoSaver();
 })
 
