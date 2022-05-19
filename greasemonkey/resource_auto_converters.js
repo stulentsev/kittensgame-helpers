@@ -16,6 +16,10 @@ function restoreSettings() {
             "gm-rac-convertMinerals",
             "gm-rac-convertIron",
             "gm-rac-makeSteel",
+            "gm-rac-makeGear",
+            "gm-rac-makeAlloy",
+            "gm-rac-makeScaffold",
+            "gm-rac-makeShip",
             "gm-rac-makeParchments",
             "gm-rac-makeManuscripts",
             "gm-rac-makeCompendiums",
@@ -44,6 +48,10 @@ function saveSettings() {
         "gm-rac-convertMinerals",
         "gm-rac-convertIron",
         "gm-rac-makeSteel",
+        "gm-rac-makeGear",
+        "gm-rac-makeAlloy",
+        "gm-rac-makeScaffold",
+        "gm-rac-makeShip",
         "gm-rac-makeParchments",
         "gm-rac-makeManuscripts",
         "gm-rac-makeCompendiums",
@@ -106,6 +114,10 @@ function startConverters() {
         slab: {triggerId: ".0.5.1.0.4.3.0.1", buttonId: ".0.5.1.0.4.6.0", toggleId: "gm-rac-convertMinerals"},
         plate: {triggerId: ".0.5.1.0.5.3.0.1", buttonId: ".0.5.1.0.5.6.0", toggleId: "gm-rac-convertIron"},
         steel: {triggerId: ".0.5.1.0.6.3.0.1", buttonId: ".0.5.1.0.6.6.0", toggleId: "gm-rac-makeSteel"},
+        gear: {triggerId: ".0.5.1.0.8.3.0.1", buttonId: ".0.5.1.0.8.6.0", toggleId: "gm-rac-makeGear"},
+        alloy: {triggerId: ".0.5.1.0.9.3.0.1", buttonId: ".0.5.1.0.9.6.0", toggleId: "gm-rac-makeAlloy"},
+        scaffold: {triggerId: ".0.5.1.0.b.3.0.1", buttonId: ".0.5.1.0.b.6.0", toggleId: "gm-rac-makeScaffold"},
+        ship: {triggerId: ".0.5.1.0.c.3.0.1", buttonId: ".0.5.1.0.c.6.0", toggleId: "gm-rac-makeShip"},
         parchment: {triggerId: ".0.5.1.0.f.3.0.1", buttonId: ".0.5.1.0.f.6.0", toggleId: "gm-rac-makeParchments"},
         manuscripts: {triggerId: ".0.5.1.0.g.3.0.1", buttonId: ".0.5.1.0.g.6.0", toggleId: "gm-rac-makeManuscripts"},
         compendiums: {triggerId: ".0.5.1.0.h.3.0.1", buttonId: ".0.5.1.0.h.6.0", toggleId: "gm-rac-makeCompendiums"},
@@ -157,6 +169,10 @@ function createUI() {
             <li><input type="checkbox" id="gm-rac-convertMinerals" /><label for="gm-rac-convertMinerals">Convert minerals</label></li>
             <li><input type="checkbox" id="gm-rac-convertIron" /><label for="gm-rac-convertIron">Convert iron</label></li>
             <li><input type="checkbox" id="gm-rac-makeSteel" /><label for="gm-rac-makeSteel">Make steel</label></li>
+            <li><input type="checkbox" id="gm-rac-makeGear" /><label for="gm-rac-makeGear">Make gear</label></li>
+            <li><input type="checkbox" id="gm-rac-makeAlloy" /><label for="gm-rac-makeAlloy">Make alloy</label></li>
+            <li><input type="checkbox" id="gm-rac-makeScaffold" /><label for="gm-rac-makeScaffold">Make scaffold</label></li>
+            <li><input type="checkbox" id="gm-rac-makeShip" /><label for="gm-rac-makeShip">Make ship</label></li>
             <li><input type="checkbox" id="gm-rac-makeParchments" /><label for="gm-rac-makeParchments">Make parchments</label></li>
             <li><input type="checkbox" id="gm-rac-makeManuscripts" /><label for="gm-rac-makeManuscripts">Make manuscripts</label></li>
             <li><input type="checkbox" id="gm-rac-makeCompendiums" /><label for="gm-rac-makeCompendiums">Make compendiums</label></li>
