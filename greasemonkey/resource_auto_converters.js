@@ -79,6 +79,17 @@ function getReactElement(reactid) {
     return null;
 }
 
+function isResourceAtCap(selector) {
+    let curValueNodes = document.querySelectorAll(`.${selector} .resAmount`);
+    if(!curValueNodes.length) {
+        return false;
+    }
+    let curValue = curValueNodes[0].innerText;
+
+    let maxValue = document.querySelectorAll(`.${selector} .maxRes`)[0].innerText.slice(1); // drop leading slash
+    return curValue === maxValue;
+}
+
 function convertResource(obj) {
     let {triggerId, buttonId, toggleId, condition, sourceSelector} = obj;
     
@@ -87,7 +98,9 @@ function convertResource(obj) {
     if (toggle && toggle.checked) {
         let trigger = getReactElement(triggerId);
         let btn = getReactElement(buttonId);
-        if (trigger && btn && (!condition || condition(trigger, btn))) {
+        let predicatesSatisfied = (!condition || condition(trigger, btn)) &&
+            (!sourceSelector || isResourceAtCap(sourceSelector));
+        if (trigger && btn && predicatesSatisfied) {
             btn.click();
         }
     }
@@ -115,13 +128,13 @@ function startConverters() {
         beam: {triggerId: ".0.5.1.0.3.5.0.1", buttonId: ".0.5.1.0.3.6.0", toggleId: "gm-rac-convertWood", sourceSelector: "resource_wood"},
         slab: {triggerId: ".0.5.1.0.4.5.0.1", buttonId: ".0.5.1.0.4.6.0", toggleId: "gm-rac-convertMinerals", sourceSelector: "resource_minerals"},
         plate: {triggerId: ".0.5.1.0.5.5.0.1", buttonId: ".0.5.1.0.5.6.0", toggleId: "gm-rac-convertIron", sourceSelector: "resource_iron"},
-        steel: {triggerId: ".0.5.1.0.6.5.0.1", buttonId: ".0.5.1.0.6.6.0", toggleId: "gm-rac-makeSteel"},
-        gear: {triggerId: ".0.5.1.0.8.3.0.1", buttonId: ".0.5.1.0.8.6.0", toggleId: "gm-rac-makeGear"},
-        alloy: {triggerId: ".0.5.1.0.9.3.0.1", buttonId: ".0.5.1.0.9.6.0", toggleId: "gm-rac-makeAlloy"},
-        scaffold: {triggerId: ".0.5.1.0.b.3.0.1", buttonId: ".0.5.1.0.b.6.0", toggleId: "gm-rac-makeScaffold"},
+        steel: {triggerId: ".0.5.1.0.6.3.0.1", buttonId: ".0.5.1.0.6.6.0", toggleId: "gm-rac-makeSteel", sourceSelector: "resource_coal"},
+        gear: {triggerId: ".0.5.1.0.8.5.0.1", buttonId: ".0.5.1.0.8.6.0", toggleId: "gm-rac-makeGear"},
+        alloy: {triggerId: ".0.5.1.0.9.5.0.1", buttonId: ".0.5.1.0.9.6.0", toggleId: "gm-rac-makeAlloy", sourceSelector: "resource_titanium"},
+        scaffold: {triggerId: ".0.5.1.0.b.5.0.1", buttonId: ".0.5.1.0.b.6.0", toggleId: "gm-rac-makeScaffold"},
         ship: {triggerId: ".0.5.1.0.c.3.0.1", buttonId: ".0.5.1.0.c.6.0", toggleId: "gm-rac-makeShip"},
         parchment: {triggerId: ".0.5.1.0.f.3.0.1", buttonId: ".0.5.1.0.f.6.0", toggleId: "gm-rac-makeParchments"},
-        manuscripts: {triggerId: ".0.5.1.0.g.3.0.1", buttonId: ".0.5.1.0.g.6.0", toggleId: "gm-rac-makeManuscripts"},
+        manuscripts: {triggerId: ".0.5.1.0.g.5.0.1", buttonId: ".0.5.1.0.g.6.0", toggleId: "gm-rac-makeManuscripts"},
         compendiums: {triggerId: ".0.5.1.0.h.3.0.1", buttonId: ".0.5.1.0.h.6.0", toggleId: "gm-rac-makeCompendiums"},
         hunters: {
             triggerId: ".0.2.0.1.0",
