@@ -79,19 +79,21 @@ function getReactElement(reactid) {
     return null;
 }
 
-function convertResource(triggerId, actionId, toggleId, condition) {
+function convertResource(obj) {
+    let {triggerId, buttonId, toggleId, condition, sourceSelector} = obj;
+    
     let toggle = document.getElementById(toggleId);
 
     if (toggle && toggle.checked) {
         let trigger = getReactElement(triggerId);
-        let btn = getReactElement(actionId);
+        let btn = getReactElement(buttonId);
         if (trigger && btn && (!condition || condition(trigger, btn))) {
             btn.click();
         }
     }
 
     setTimeout(function () {
-        convertResource(triggerId, actionId, toggleId, condition)
+        convertResource(obj)
     }, 3000)
 }
 
@@ -109,11 +111,11 @@ function startConverters() {
     console.log("starting the helpers...");
 
     const buttons = {
-        food: {triggerId: ".0.5.1.0.0.5.0.1", buttonId: ".0.5.1.0.0.6.0", toggleId: "gm-rac-convertCatnip"},
-        beam: {triggerId: ".0.5.1.0.3.3.0.1", buttonId: ".0.5.1.0.3.6.0", toggleId: "gm-rac-convertWood"},
-        slab: {triggerId: ".0.5.1.0.4.3.0.1", buttonId: ".0.5.1.0.4.6.0", toggleId: "gm-rac-convertMinerals"},
-        plate: {triggerId: ".0.5.1.0.5.3.0.1", buttonId: ".0.5.1.0.5.6.0", toggleId: "gm-rac-convertIron"},
-        steel: {triggerId: ".0.5.1.0.6.3.0.1", buttonId: ".0.5.1.0.6.6.0", toggleId: "gm-rac-makeSteel"},
+        food: {triggerId: ".0.5.1.0.0.5.0.1", buttonId: ".0.5.1.0.0.6.0", toggleId: "gm-rac-convertCatnip", sourceSelector: "resource_catnip"},
+        beam: {triggerId: ".0.5.1.0.3.5.0.1", buttonId: ".0.5.1.0.3.6.0", toggleId: "gm-rac-convertWood", sourceSelector: "resource_wood"},
+        slab: {triggerId: ".0.5.1.0.4.5.0.1", buttonId: ".0.5.1.0.4.6.0", toggleId: "gm-rac-convertMinerals", sourceSelector: "resource_minerals"},
+        plate: {triggerId: ".0.5.1.0.5.5.0.1", buttonId: ".0.5.1.0.5.6.0", toggleId: "gm-rac-convertIron", sourceSelector: "resource_iron"},
+        steel: {triggerId: ".0.5.1.0.6.5.0.1", buttonId: ".0.5.1.0.6.6.0", toggleId: "gm-rac-makeSteel"},
         gear: {triggerId: ".0.5.1.0.8.3.0.1", buttonId: ".0.5.1.0.8.6.0", toggleId: "gm-rac-makeGear"},
         alloy: {triggerId: ".0.5.1.0.9.3.0.1", buttonId: ".0.5.1.0.9.6.0", toggleId: "gm-rac-makeAlloy"},
         scaffold: {triggerId: ".0.5.1.0.b.3.0.1", buttonId: ".0.5.1.0.b.6.0", toggleId: "gm-rac-makeScaffold"},
@@ -130,7 +132,7 @@ function startConverters() {
     }
 
     Object.values(buttons).forEach(obj => {
-        convertResource(obj.triggerId, obj.buttonId, obj.toggleId, obj.condition)
+        convertResource(obj)
     });
 
     clickButton("observeBtn");
@@ -164,10 +166,22 @@ function createUI() {
     document.body.appendChild(elemDiv);
     let html = `
         <ul style="list-style-type: none">
-            <li><input type="checkbox" id="gm-rac-convertCatnip" /><label for="gm-rac-convertCatnip">Convert catnip</label></li>
-            <li><input type="checkbox" id="gm-rac-convertWood" /><label for="gm-rac-convertWood">Convert wood</label></li>
-            <li><input type="checkbox" id="gm-rac-convertMinerals" /><label for="gm-rac-convertMinerals">Convert minerals</label></li>
-            <li><input type="checkbox" id="gm-rac-convertIron" /><label for="gm-rac-convertIron">Convert iron</label></li>
+            <li>
+                <input type="checkbox" id="gm-rac-convertCatnip" /><label for="gm-rac-convertCatnip">Make wood</label>
+                <input type="checkbox" id="gm-rac-convertCatnipAtCap" /><label for="gm-rac-convertCatnipAtCap">At cap</label>
+            </li>
+            <li>
+                <input type="checkbox" id="gm-rac-convertWood" /><label for="gm-rac-convertWood">Make beam</label>
+                <input type="checkbox" id="gm-rac-convertWoodAtCap" /><label for="gm-rac-convertWoodAtCap">At cap</label>
+            </li>
+            <li>
+                <input type="checkbox" id="gm-rac-convertMinerals" /><label for="gm-rac-convertMinerals">Make slab</label>
+                <input type="checkbox" id="gm-rac-convertMineralsAtCap" /><label for="gm-rac-convertMineralsAtCap">At cap</label>
+            </li>
+            <li>
+                <input type="checkbox" id="gm-rac-convertIron" /><label for="gm-rac-convertIron">Make plate</label>
+                <input type="checkbox" id="gm-rac-convertIronAtCap" /><label for="gm-rac-convertIronAtCap">At cap</label>
+            </li>
             <li><input type="checkbox" id="gm-rac-makeSteel" /><label for="gm-rac-makeSteel">Make steel</label></li>
             <li><input type="checkbox" id="gm-rac-makeGear" /><label for="gm-rac-makeGear">Make gear</label></li>
             <li><input type="checkbox" id="gm-rac-makeAlloy" /><label for="gm-rac-makeAlloy">Make alloy</label></li>
