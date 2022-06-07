@@ -3,6 +3,7 @@
 // @version  1
 // @grant    GM.getValue
 // @grant    GM.setValue
+// @include  https://kittensgame.com/web/*
 // ==/UserScript==
 
 function restoreSettings() {
@@ -11,6 +12,7 @@ function restoreSettings() {
     GM.getValue("gmRacSettings").then(ls => {
         let saved = JSON.parse(ls || "{}") || {};
         [
+            "gm-rac-praiseSun",
             "gm-rac-convertCatnip",
             "gm-rac-convertWood",
             "gm-rac-convertMinerals",
@@ -33,7 +35,6 @@ function restoreSettings() {
         });
 
         [
-            "gm-rac-needHunters",
             "gm-rac-neededBuildings"
         ].forEach(elemId => {
             document.getElementById(elemId).value = saved[elemId];
@@ -45,6 +46,7 @@ function saveSettings() {
     let saved = {};
 
     [
+        "gm-rac-praiseSun",
         "gm-rac-convertCatnip",
         "gm-rac-convertWood",
         "gm-rac-convertMinerals",
@@ -67,7 +69,6 @@ function saveSettings() {
     });
 
     [
-        "gm-rac-needHunters",
         "gm-rac-neededBuildings"
     ].forEach(elemId => {
         saved[elemId] = document.getElementById(elemId).value;
@@ -96,7 +97,7 @@ function isResourceAtCap(selector) {
 
 function convertResource(obj) {
     let {triggerId, buttonId, toggleId, condition, sourceSelector} = obj;
-    
+
     let toggle = document.getElementById(toggleId);
 
     if (toggle && toggle.checked) {
@@ -128,26 +129,22 @@ function startConverters() {
     console.log("starting the helpers...");
 
     const buttons = {
-        food: {triggerId: ".0.5.1.0.0.5.0.1", buttonId: ".0.5.1.0.0.6.0", toggleId: "gm-rac-convertCatnip", sourceSelector: "resource_catnip"},
-        beam: {triggerId: ".0.5.1.0.3.5.0.1", buttonId: ".0.5.1.0.3.6.0", toggleId: "gm-rac-convertWood", sourceSelector: "resource_wood"},
-        slab: {triggerId: ".0.5.1.0.4.5.0.1", buttonId: ".0.5.1.0.4.6.0", toggleId: "gm-rac-convertMinerals", sourceSelector: "resource_minerals"},
-        plate: {triggerId: ".0.5.1.0.5.5.0.1", buttonId: ".0.5.1.0.5.6.0", toggleId: "gm-rac-convertIron", sourceSelector: "resource_iron"},
-        steel: {triggerId: ".0.5.1.0.6.3.0.1", buttonId: ".0.5.1.0.6.6.0", toggleId: "gm-rac-makeSteel", sourceSelector: "resource_coal"},
+        food: {triggerId: ".0.5.1.0.0.6.0", buttonId: ".0.5.1.0.0.6.0", toggleId: "gm-rac-convertCatnip", sourceSelector: "resource_catnip"},
+        beam: {triggerId: ".0.5.1.0.3.6.0", buttonId: ".0.5.1.0.3.6.0", toggleId: "gm-rac-convertWood", sourceSelector: "resource_wood"},
+        slab: {triggerId: ".0.5.1.0.4.6.0", buttonId: ".0.5.1.0.4.6.0", toggleId: "gm-rac-convertMinerals", sourceSelector: "resource_minerals"},
+        plate: {triggerId: ".0.5.1.0.5.6.0", buttonId: ".0.5.1.0.5.6.0", toggleId: "gm-rac-convertIron", sourceSelector: "resource_iron"},
+        steel: {triggerId: ".0.5.1.0.6.6.0", buttonId: ".0.5.1.0.6.6.0", toggleId: "gm-rac-makeSteel", sourceSelector: "resource_coal"},
         concrete: {triggerId: ".0.5.1.0.7.3.0.1", buttonId: ".0.5.1.0.7.6.0", toggleId: "gm-rac-makeConcrete"},
         gear: {triggerId: ".0.5.1.0.8.5.0.1", buttonId: ".0.5.1.0.8.6.0", toggleId: "gm-rac-makeGear"},
-        alloy: {triggerId: ".0.5.1.0.9.5.0.1", buttonId: ".0.5.1.0.9.6.0", toggleId: "gm-rac-makeAlloy", sourceSelector: "resource_titanium"},
+        alloy: {triggerId: ".0.5.1.0.9.6.0", buttonId: ".0.5.1.0.9.6.0", toggleId: "gm-rac-makeAlloy", sourceSelector: "resource_titanium"},
         scaffold: {triggerId: ".0.5.1.0.b.5.0.1", buttonId: ".0.5.1.0.b.6.0", toggleId: "gm-rac-makeScaffold"},
         ship: {triggerId: ".0.5.1.0.c.3.0.1", buttonId: ".0.5.1.0.c.6.0", toggleId: "gm-rac-makeShip"},
         parchment: {triggerId: ".0.5.1.0.f.5.0.1", buttonId: ".0.5.1.0.f.6.0", toggleId: "gm-rac-makeParchments"},
         manuscripts: {triggerId: ".0.5.1.0.g.4.0.1", buttonId: ".0.5.1.0.g.6.0", toggleId: "gm-rac-makeManuscripts"},
         compendiums: {triggerId: ".0.5.1.0.h.3.0.1", buttonId: ".0.5.1.0.h.6.0", toggleId: "gm-rac-makeCompendiums"},
         blueprint: {triggerId: ".0.5.1.0.i.3.0.1", buttonId: ".0.5.1.0.i.6.0", toggleId: "gm-rac-makeBlueprints"},
-        hunters: {
-            triggerId: ".0.2.0.1.0",
-            buttonId: ".0.2.0.1.0",
-            toggleId: "gm-rac-sendHunters",
-            condition: elem => parseInt(elem.innerText) >= parseInt(document.getElementById("gm-rac-needHunters").value)
-        },
+        hunters: {triggerId: ".0.2.0.1.0", buttonId: ".0.2.0.1.0", toggleId: "gm-rac-sendHunters", sourceSelector: "resource_manpower"},
+        faith: {triggerId: ".0.3.0", buttonId: ".0.3.0", toggleId: "gm-rac-praiseSun", sourceSelector: "resource_faith"}
     }
 
     Object.values(buttons).forEach(obj => {
@@ -185,6 +182,7 @@ function createUI() {
     document.body.appendChild(elemDiv);
     let html = `
         <ul style="list-style-type: none">
+            <li><input type="checkbox" id="gm-rac-praiseSun" /><label for="gm-rac-praiseSun">Praise sun</label></li>
             <li>
                 <input type="checkbox" id="gm-rac-convertCatnip" /><label for="gm-rac-convertCatnip">Make wood</label>
 <!--                <input type="checkbox" id="gm-rac-convertCatnipAtCap" /><label for="gm-rac-convertCatnipAtCap">At cap</label>-->
@@ -211,7 +209,7 @@ function createUI() {
             <li><input type="checkbox" id="gm-rac-makeManuscripts" /><label for="gm-rac-makeManuscripts">Make manuscripts</label></li>
             <li><input type="checkbox" id="gm-rac-makeCompendiums" /><label for="gm-rac-makeCompendiums">Make compendiums</label></li>
             <li><input type="checkbox" id="gm-rac-makeBlueprints" /><label for="gm-rac-makeBlueprints">Make blueprints</label></li>
-            <li><input type="checkbox" id="gm-rac-sendHunters" /><label for="gm-rac-sendHunters">Send hunters when have </label><input type="number" value="27" id="gm-rac-needHunters" style="width:50px" /></li>
+            <li><input type="checkbox" id="gm-rac-sendHunters" /><label for="gm-rac-sendHunters">Send hunters</label>
             <li><input type="checkbox" id="gm-rac-autoBuyBuildings" /><label for="gm-rac-autoBuyBuildings">Auto-buy buildings</label></li>
             <li>
                 <textarea id="gm-rac-neededBuildings" style="width:292px;height:138px"></textarea>    
