@@ -120,7 +120,7 @@ function convertResource(obj) {
 
     setTimeout(function () {
         convertResource(obj)
-    }, 3000)
+    }, 1000)
 }
 
 function clickButton(id) {
@@ -130,7 +130,7 @@ function clickButton(id) {
     }
     setTimeout(function () {
         clickButton(id)
-    }, 3000)
+    }, 1000)
 }
 
 function startConverters() {
@@ -177,7 +177,7 @@ function startBuyers() {
         }
     }
 
-    setTimeout(startBuyers, 3000);
+    setTimeout(startBuyers, 1000);
 }
 
 function startAutoSaver() {
