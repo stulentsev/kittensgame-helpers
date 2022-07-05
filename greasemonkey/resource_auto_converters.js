@@ -21,12 +21,16 @@ function restoreSettings() {
             "gm-rac-makeConcrete",
             "gm-rac-makeGear",
             "gm-rac-makeAlloy",
+            "gm-rac-makeEludium",
             "gm-rac-makeScaffold",
             "gm-rac-makeShip",
+            "gm-rac-makeTanker",
+            "gm-rac-makeKerosene",
             "gm-rac-makeParchments",
             "gm-rac-makeManuscripts",
             "gm-rac-makeCompendiums",
             "gm-rac-makeBlueprints",
+            "gm-rac-makeThorium",
             "gm-rac-sendHunters",
             "gm-rac-autoBuyBuildings"
 
@@ -55,12 +59,16 @@ function saveSettings() {
         "gm-rac-makeConcrete",
         "gm-rac-makeGear",
         "gm-rac-makeAlloy",
+        "gm-rac-makeEludium",
         "gm-rac-makeScaffold",
         "gm-rac-makeShip",
+        "gm-rac-makeTanker",
+        "gm-rac-makeKerosene",
         "gm-rac-makeParchments",
         "gm-rac-makeManuscripts",
         "gm-rac-makeCompendiums",
         "gm-rac-makeBlueprints",
+        "gm-rac-makeThorium",
         "gm-rac-sendHunters",
         "gm-rac-autoBuyBuildings"
 
@@ -137,12 +145,16 @@ function startConverters() {
         concrete: {triggerId: ".0.5.1.0.7.3.0.1", buttonId: ".0.5.1.0.7.6.0", toggleId: "gm-rac-makeConcrete"},
         gear: {triggerId: ".0.5.1.0.8.5.0.1", buttonId: ".0.5.1.0.8.6.0", toggleId: "gm-rac-makeGear"},
         alloy: {triggerId: ".0.5.1.0.9.6.0", buttonId: ".0.5.1.0.9.6.0", toggleId: "gm-rac-makeAlloy", sourceSelector: "resource_titanium"},
+        eludium: {triggerId: ".0.5.1.0.a.3.0.1", buttonId: ".0.5.1.0.a.6.0", toggleId: "gm-rac-makeEludium", sourceSelector: "resource_unobtainium"},
         scaffold: {triggerId: ".0.5.1.0.b.5.0.1", buttonId: ".0.5.1.0.b.6.0", toggleId: "gm-rac-makeScaffold"},
         ship: {triggerId: ".0.5.1.0.c.3.0.1", buttonId: ".0.5.1.0.c.6.0", toggleId: "gm-rac-makeShip"},
-        parchment: {triggerId: ".0.5.1.0.f.3.0.1", buttonId: ".0.5.1.0.f.6.0", toggleId: "gm-rac-makeParchments"},
-        manuscripts: {triggerId: ".0.5.1.0.g.3.0.1", buttonId: ".0.5.1.0.g.6.0", toggleId: "gm-rac-makeManuscripts"},
-        compendiums: {triggerId: ".0.5.1.0.h.3.0.1", buttonId: ".0.5.1.0.h.6.0", toggleId: "gm-rac-makeCompendiums"},
-        blueprint: {triggerId: ".0.5.1.0.i.3.0.1", buttonId: ".0.5.1.0.i.6.0", toggleId: "gm-rac-makeBlueprints"},
+        tanker: {triggerId: ".0.5.1.0.d.5.0.1", buttonId: ".0.5.1.0.d.6.0", toggleId: "gm-rac-makeTanker"},
+        kerosene: {triggerId: ".0.5.1.0.e.3.0.1", buttonId: ".0.5.1.0.e.6.0", toggleId: "gm-rac-makeKerosene", sourceSelector: "resource_oil"},
+        parchment: {triggerId: ".0.5.1.0.f.5.0.1", buttonId: ".0.5.1.0.f.6.0", toggleId: "gm-rac-makeParchments"},
+        manuscripts: {triggerId: ".0.5.1.0.g.3.0.1", buttonId: ".0.5.1.0.g.6.0", toggleId: "gm-rac-makeManuscripts", sourceSelector: "resource_culture"},
+        compendiums: {triggerId: ".0.5.1.0.h.3.0.1", buttonId: ".0.5.1.0.h.6.0", toggleId: "gm-rac-makeCompendiums", sourceSelector: "resource_science"},
+        blueprint: {triggerId: ".0.5.1.0.i.3.0.1", buttonId: ".0.5.1.0.i.6.0", toggleId: "gm-rac-makeBlueprints", sourceSelector: "resource_science"},
+        thorium: {triggerId: ".0.5.1.0.j.3.0.1", buttonId: ".0.5.1.0.j.6.0", toggleId: "gm-rac-makeThorium", sourceSelector: "resource_uranium"},
         hunters: {triggerId: ".0.2.0.1.0", buttonId: ".0.2.0.1.0", toggleId: "gm-rac-sendHunters", sourceSelector: "resource_manpower"},
         faith: {triggerId: ".0.3.0", buttonId: ".0.3.0", toggleId: "gm-rac-praiseSun", sourceSelector: "resource_faith"}
     }
@@ -203,12 +215,16 @@ function createUI() {
             <li><input type="checkbox" id="gm-rac-makeConcrete" /><label for="gm-rac-makeConcrete">Make concrete</label></li>
             <li><input type="checkbox" id="gm-rac-makeGear" /><label for="gm-rac-makeGear">Make gear</label></li>
             <li><input type="checkbox" id="gm-rac-makeAlloy" /><label for="gm-rac-makeAlloy">Make alloy</label></li>
+            <li><input type="checkbox" id="gm-rac-makeEludium" /><label for="gm-rac-makeEludium">Make eludium</label></li>
             <li><input type="checkbox" id="gm-rac-makeScaffold" /><label for="gm-rac-makeScaffold">Make scaffold</label></li>
             <li><input type="checkbox" id="gm-rac-makeShip" /><label for="gm-rac-makeShip">Make ship</label></li>
+            <li><input type="checkbox" id="gm-rac-makeTanker" /><label for="gm-rac-makeTanker">Make tanker</label></li>
+            <li><input type="checkbox" id="gm-rac-makeKerosene" /><label for="gm-rac-makeKerosene">Make kerosene</label></li>
             <li><input type="checkbox" id="gm-rac-makeParchments" /><label for="gm-rac-makeParchments">Make parchments</label></li>
             <li><input type="checkbox" id="gm-rac-makeManuscripts" /><label for="gm-rac-makeManuscripts">Make manuscripts</label></li>
             <li><input type="checkbox" id="gm-rac-makeCompendiums" /><label for="gm-rac-makeCompendiums">Make compendiums</label></li>
             <li><input type="checkbox" id="gm-rac-makeBlueprints" /><label for="gm-rac-makeBlueprints">Make blueprints</label></li>
+            <li><input type="checkbox" id="gm-rac-makeThorium" /><label for="gm-rac-makeThorium">Make thorium</label></li>
             <li><input type="checkbox" id="gm-rac-sendHunters" /><label for="gm-rac-sendHunters">Send hunters</label>
             <li><input type="checkbox" id="gm-rac-autoBuyBuildings" /><label for="gm-rac-autoBuyBuildings">Auto-buy buildings</label></li>
             <li>
